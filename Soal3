@@ -1,1 +1,116 @@
-//Kerjakan soal nomor 3 disini (Hapus komentar ini)
+#include <iostream> 
+using namespace std;
+
+int main() {
+    char kode[9]; // Menyimpan kode transaksi sebanyak 8 karakter
+
+    cout << "Masukkan kode transaksi (8 digit): ";
+    cin >> kode; // Input kode transaksi dari pengguna
+
+    // Mengecek apakah panjang kode adalah 8 karakter
+    int i = 0;
+    while (kode[i] != '\0') i++; // Menghitung jumlah karakter dalam input
+    if (i != 8) {
+        cout << "Kode tidak valid!" << endl; // Jika tidak 8 karakter, kode tidak valid
+        return 1; // Keluar dari program
+    }
+
+    // Mengambil nilai dari 2 digit pertama sebagai kode hari
+    int hari = (kode[0] - '0') * 10 + (kode[1] - '0');
+
+    // Mengambil nilai dari 2 digit berikutnya sebagai kode loyalitas
+    int loyal = (kode[2] - '0') * 10 + (kode[3] - '0');
+
+    // Mengambil nilai dari 4 digit terakhir sebagai jumlah belanja
+    int belanja = (kode[4] - '0') * 1000 + (kode[5] - '0') * 100 + (kode[6] - '0') * 10 + (kode[7] - '0');
+
+    // Menentukan jenis hari berdasarkan kode hari
+    const char* jenisHari;
+    if (hari == 1) jenisHari = "Hari Kerja";
+    else if (hari == 2) jenisHari = "Akhir Pekan";
+    else if (hari == 3) jenisHari = "Hari Libur Nasional";
+    else {
+        cout << "Kode hari tidak valid!" << endl;
+        return 1; // Keluar dari program jika kode hari tidak sesuai
+    }
+
+    // Menentukan jenis pelanggan berdasarkan kode loyalitas
+    const char* jenisPelanggan;
+    if (loyal == 1) jenisPelanggan = "Biasa";
+    else if (loyal == 2) jenisPelanggan = "Silver";
+    else if (loyal == 3) jenisPelanggan = "Gold";
+    else {
+        cout << "Kode loyalitas tidak valid!" << endl;
+        return 1; // Keluar dari program jika kode loyalitas tidak sesuai
+    }
+
+    // Menghitung poin berdasarkan jenis hari dan loyalitas pelanggan
+    int poin = 0;
+    if (hari == 1) { // Hari Kerja
+        if (loyal == 1) poin = belanja * 1;
+        else if (loyal == 2) poin = belanja * 2;
+        else if (loyal == 3) poin = belanja * 3;
+    } else if (hari == 2) { // Akhir Pekan
+        if (loyal == 1) poin = belanja * 2;
+        else if (loyal == 2) poin = belanja * 3;
+        else if (loyal == 3) poin = belanja * 5;
+    } else if (hari == 3) { // Hari Libur Nasional
+        if (loyal == 1) poin = belanja * 3;
+        else if (loyal == 2) poin = belanja * 5;
+        else if (loyal == 3) poin = belanja * 7;
+    }
+
+    // Menampilkan hasil
+    cout << "Jenis Hari      : " << jenisHari << endl;
+    cout << "Jenis Pelanggan : " << jenisPelanggan << endl;
+    cout << "Jumlah Belanja  : Rp" << belanja * 100000 << endl; // 1 unit belanja dianggap 100.000
+    cout << "Total Poin      : " << poin << " poin" << endl;
+
+    return 0;
+}
+
+/*
+Penjelasan Algoritma:
+
+Program ini memproses kode transaksi sepanjang 8 digit dan menghitung total poin berdasarkan jenis hari, jenis pelanggan, dan nominal belanja.
+
+1. Program meminta input berupa kode transaksi sebanyak 8 digit.
+   - Jika jumlah karakter tidak sama dengan 8, maka kode dianggap tidak valid.
+
+2. Kode transaksi dipecah menjadi tiga bagian:
+   - 2 digit pertama (kode[0] dan kode[1]) adalah kode hari (disimpan sebagai `hari`)
+   - 2 digit berikutnya (kode[2] dan kode[3]) adalah kode loyalitas pelanggan (disimpan sebagai `loyal`)
+   - 4 digit terakhir (kode[4] sampai kode[7]) adalah nominal belanja dalam satuan *100.000* (disimpan sebagai `belanja`)
+
+3. Kode hari:
+   - 01 → Hari Kerja
+   - 02 → Akhir Pekan
+   - 03 → Hari Libur Nasional
+   - Jika kode hari tidak valid, program berhenti.
+
+4. Kode loyalitas:
+   - 01 → Biasa
+   - 02 → Silver
+   - 03 → Gold
+   - Jika kode loyalitas tidak valid, program berhenti.
+
+5. Perhitungan poin dilakukan dengan rumus tergantung pada kombinasi hari dan loyalitas:
+   - Hari Kerja:
+     - Biasa: poin = belanja × 1
+     - Silver: poin = belanja × 2
+     - Gold: poin = belanja × 3
+   - Akhir Pekan:
+     - Biasa: poin = belanja × 2
+     - Silver: poin = belanja × 3
+     - Gold: poin = belanja × 5
+   - Hari Libur Nasional:
+     - Biasa: poin = belanja × 3
+     - Silver: poin = belanja × 5
+     - Gold: poin = belanja × 7
+
+6. Terakhir, program menampilkan:
+   - Jenis hari
+   - Jenis pelanggan
+   - Jumlah belanja (dalam rupiah, dikalikan 100.000)
+   - Total poin yang diperoleh
+*/
