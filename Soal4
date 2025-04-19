@@ -1,1 +1,97 @@
-//Kerjakan soal nomor 4 disini (Hapus komentar ini)
+#include <iostream> 
+using namespace std;
+
+int main() {
+    int n; // Variabel untuk menyimpan jumlah babak
+    cout << "Masukkan jumlah babak: ";
+    cin >> n; // Input jumlah babak dari pengguna
+
+    // Inisialisasi poin dan streak (jumlah kemenangan beruntun) untuk kedua pemain
+    int poinA = 0, poinB = 0;
+    int streakA = 0, streakB = 0;
+    char babak; // Variabel untuk menyimpan hasil setiap babak (A, B, atau C)
+
+    cout << "Masukkan hasil babak (A/B/C): ";
+    for (int i = 0; i < n; i++) {
+        cin >> babak; // Input hasil babak ke-i
+
+        if (babak == 'A') {
+            // Pemain A menang, dapat 3 poin
+            poinA += 3;
+            streakA++;      // Tambahkan kemenangan beruntun A
+            streakB = 0;    // Reset kemenangan beruntun B
+
+            // Bonus jika A menang 3 kali berturut-turut
+            if (streakA == 3) {
+                poinA += 2;
+                streakA = 0; // Reset streak setelah bonus
+            }
+
+        } else if (babak == 'B') {
+            // Pemain B menang, dapat 3 poin
+            poinB += 3;
+            streakB++;      // Tambahkan kemenangan beruntun B
+            streakA = 0;    // Reset kemenangan beruntun A
+
+            // Bonus jika B menang 3 kali berturut-turut
+            if (streakB == 3) {
+                poinB += 2;
+                streakB = 0; // Reset streak setelah bonus
+            }
+
+        } else {
+            // Jika seri (C), kedua pemain mendapat 1 poin
+            poinA++;
+            poinB++;
+            streakA = 0; // Reset streak
+            streakB = 0;
+        }
+    }
+
+    // Menampilkan total poin kedua pemain
+    cout << "Poin A: " << poinA << endl;
+    cout << "Poin B: " << poinB << endl;
+
+    // Menentukan dan menampilkan pemenang berdasarkan poin
+    if (poinA > poinB) 
+        cout << "Pemenangnya adalah pemain A" << endl;
+    else if (poinB > poinA) 
+        cout << "Pemenangnya adalah pemain B" << endl;
+    else 
+        cout << "Hasil pertandingan Seri!" << endl;
+
+    return 0; // Mengakhiri program
+}
+
+/*
+Penjelasan Algoritma:
+
+Program ini digunakan untuk menentukan pemenang dari beberapa babak pertandingan antara dua pemain: A dan B.
+
+1. Program meminta input jumlah babak (`n`) yang akan dimainkan.
+2. Kemudian program menerima input hasil tiap babak sebanyak `n` kali, di mana:
+   - 'A' berarti pemain A menang.
+   - 'B' berarti pemain B menang.
+   - 'C' berarti seri (draw).
+
+3. Aturan pemberian poin:
+   - Jika A menang ('A'), maka:
+     - A mendapat 3 poin.
+     - Menambah jumlah kemenangan beruntun A (`streakA++`).
+     - Reset streak B ke 0.
+     - Jika A menang 3 kali berturut-turut (streakA == 3), A mendapat tambahan 2 poin bonus, lalu streakA direset ke 0.
+
+   - Jika B menang ('B'), maka:
+     - B mendapat 3 poin.
+     - Menambah jumlah kemenangan beruntun B (`streakB++`).
+     - Reset streak A ke 0.
+     - Jika B menang 3 kali berturut-turut (streakB == 3), B mendapat tambahan 2 poin bonus, lalu streakB direset ke 0.
+
+   - Jika seri ('C'), maka:
+     - Kedua pemain mendapat 1 poin.
+     - Kedua streak kemenangan direset ke 0.
+
+4. Setelah semua babak selesai:
+   - Program menampilkan total poin pemain A dan B.
+   - Menentukan dan menampilkan pemenang berdasarkan poin terbanyak, atau menyatakan hasil seri jika poin sama.
+*/
