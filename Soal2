@@ -4,10 +4,24 @@
 using namespace std;
 
 void hitungBiayaParkir(string kodeParkir, int jamKeluar) {
-    // Ambil informasi dari kode parkir
-    int jenisKendaraan = stoi(kodeParkir.substr(0, 2));
-    int jamMasuk = stoi(kodeParkir.substr(2, 4));
-    string lokasiParkir = kodeParkir.substr(6, 4);
+    int jenisKendaraan = 0;
+    int jamMasuk = 0;
+    string lokasiParkir = "";
+
+    // Mengambil 2 digit pertama sebagai jenis kendaraan
+    for (int i = 0; i < 2; i++) {
+        jenisKendaraan = jenisKendaraan * 10 + (kodeParkir[i] - '0');
+    }
+
+    // Mengambil 4 digit berikutnya sebagai waktu masuk
+    for (int i = 2; i < 6; i++) {
+        jamMasuk = jamMasuk * 10 + (kodeParkir[i] - '0');
+    }
+
+    // Mengambil 4 digit terakhir sebagai lokasi parkir
+    for (int i = 6; i < 10; i++) {
+        lokasiParkir += kodeParkir[i];
+    }
 
     // Konversi waktu masuk dan keluar ke format jam dan menit
     int jamMasukH = jamMasuk / 100;
@@ -23,7 +37,7 @@ void hitungBiayaParkir(string kodeParkir, int jamKeluar) {
         return;
     }
 
-    // Hitung jumlah jam, jika ada sisa menit dihitung sebagai 1 jam tambahan
+    // Hitung jumlah jam parkir, jika ada sisa menit dihitung sebagai 1 jam tambahan
     int totalJam = totalMenit / 60;
     if (totalMenit % 60 > 0) {
         totalJam += 1;
@@ -55,7 +69,7 @@ void hitungBiayaParkir(string kodeParkir, int jamKeluar) {
     }
 
     // Hitung biaya parkir dengan tarif yang benar
-    int biayaTotal = tarifPertama + (max(0, totalJam - 1) * tarifSelanjutnya);
+    int biayaTotal = tarifPertama + ((totalJam > 1) ? (totalJam - 1) * tarifSelanjutnya : 0);
 
     // Tampilkan hasil
     cout << "Jenis Kendaraan: " << jenis << endl;
@@ -86,34 +100,38 @@ int main() {
 ALGORITMA PROGRAM PERHITUNGAN BIAYA PARKIR
 =============================================================================
 
-1. Minta pengguna memasukkan kode parkir (10 digit) dan jam keluar (format HHMM).
-2. Ambil informasi dari kode parkir:
-   - 2 digit pertama: Jenis kendaraan (10 = Mobil, 20 = Motor, 30 = Bus).
-   - 4 digit berikutnya: Waktu masuk dalam format HHMM.
+1. Meminta pengguna memasukkan kode parkir dan jam keluar:
+   - Program menerima input kode parkir **10 digit** dalam bentuk string.
+   - Program menerima input waktu keluar dalam format HHMM.
+
+2. Mengambil informasi dari kode parkir:
+   - 2 digit pertama: Jenis kendaraan (`10` = Mobil, `20` = Motor, `30` = Bus).
+   - 4 digit berikutnya**: Waktu masuk dalam format HHMM.
    - 4 digit terakhir: Nomor lokasi parkir.
 
 3. Konversi waktu masuk dan keluar ke format jam dan menit:
-   - Pisahkan nilai jam dan menit dari data waktu masuk dan keluar.
+   - Pisahkan nilai **jam** dan **menit** dari waktu masuk dan keluar.
 
-4. Hitung total waktu parkir dalam menit:
+4. Menghitung total waktu parkir dalam menit:
    - Hitung selisih waktu keluar dan waktu masuk dalam satuan menit.
-   - Jika hasil negatif, berikan pesan kesalahan dan hentikan eksekusi.
+   - Jika hasil negatif, tampilkan pesan kesalahan dan hentikan program.
 
-5. Hitung durasi parkir dalam jam:
+5. Menghitung durasi parkir dalam jam:
    - Total jam dihitung dengan membagi total menit dengan 60.
-   - Jika ada sisa menit, tambahkan satu jam ekstra.
+   - Jika ada sisa menit, tambahkan 1 jam ekstra.
 
-6. Tentukan tarif berdasarkan jenis kendaraan:
+6. Menentukan tarif berdasarkan jenis kendaraan:
    - Mobil: Tarif pertama Rp5000, tarif selanjutnya Rp3000 per jam.
    - Motor: Tarif pertama Rp3000, tarif selanjutnya Rp2000 per jam.
    - Bus: Tarif pertama Rp10000, tarif selanjutnya Rp7000 per jam.
-   - Jika kode kendaraan tidak valid, tampilkan pesan kesalahan dan hentikan eksekusi.
+   - Jika kode kendaraan tidak valid, tampilkan pesan kesalahan dan hentikan program.
 
-7. Hitung total biaya parkir:
+7. Menghitung total biaya parkir:
    - Tarif pertama ditambah dengan tarif tambahan berdasarkan jumlah jam tambahan.
 
-8. Tampilkan hasil kepada pengguna:
+8. Menampilkan hasil perhitungan kepada pengguna:
    - Jenis kendaraan, waktu masuk, waktu keluar, durasi parkir, lokasi parkir, dan total biaya parkir.
 
 =============================================================================
+
 */
